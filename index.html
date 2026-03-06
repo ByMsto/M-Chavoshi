@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>موزیک - موحسین چاڤۆشی</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.cdnfonts.com/css/nizar-nastaliq-kurdish" rel="stylesheet">
 
 <style>
+  /* 🖋️ شێوازی نوێ بۆ بانگکردنی فۆنتی نەستەعلیق بۆ مۆبایل */
+  @import url('https://fonts.cdnfonts.com/css/nizar-nastaliq-kurdish');
+
   :root {
     --bg-primary: #0a0a0a;
     --bg-secondary: #111111;
@@ -24,18 +26,19 @@
     --sidebar-width: 240px;
   }
 
-  /* 🌈 RGB Watermark Style - دانان لە سەرەوە */
+  /* 🌈 RGB Watermark Style - مستۆ */
   .msto-rgb-watermark {
       position: fixed;
-      top: 20px; /* بردن بۆ سەرەوە */
-      left: 30px; /* لای چەپ */
-      font-size: 45px; /* قەبارەی گەورە بۆ ئەوەی دیار بێت */
-      font-family: 'Nizar Nastaliq Kurdish', serif;
-      z-index: 9999; /* هەمیشە لەسەر هەموو شتێک بێت */
+      top: 15px; 
+      left: 20px; 
+      font-size: 42px; 
+      /* لێرە ناوی فۆنتەکە بە وردی دانراوە */
+      font-family: 'Nizar Nastaliq Kurdish', 'Nizar Nastaliq', serif !important;
+      z-index: 9999; 
       pointer-events: none;
       animation: rgb-text 5s infinite linear;
       direction: rtl;
-      filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)); /* بۆ ئەوەی لەسەر وێنەش دیار بێت */
+      filter: drop-shadow(0 0 12px rgba(0,0,0,0.9));
   }
 
   @keyframes rgb-text {
@@ -128,14 +131,15 @@
     body { grid-template-columns: 1fr; grid-template-areas: "main" "player"; }
     #sidebar { display: none; }
     .main-header { padding: 20px; flex-direction: column; align-items: center; text-align: center; }
-    .artist-cover { width: 150px; height: 150px; }
-    .artist-info h1 { font-size: 28px; }
+    .artist-cover { width: 140px; height: 140px; }
+    .artist-info h1 { font-size: 26px; }
     .table-header { display: none; }
     .song-row { grid-template-columns: 30px 40px 1fr 60px; padding: 12px 10px; margin: 0 5px; }
     .song-album { display: none; }
     .player-right, .progress-row { display: none; }
     #player { grid-template-columns: 1fr 1fr; }
-    .msto-rgb-watermark { font-size: 35px; top: 10px; left: 15px; }
+    /* ناوەکە لە مۆبایل کەمێک بچووکتر بێت */
+    .msto-rgb-watermark { font-size: 32px; top: 10px; left: 15px; }
   }
 </style>
 </head>
@@ -178,7 +182,7 @@
     <div id="songList"></div>
   </div>
 
-  <div id="view-search" class="views active" style="display:none;">
+  <div id="view-search" class="views" style="display:none;">
       <h2 style="padding:20px;">گەڕان</h2>
       <input type="text" style="margin:0 20px; padding:10px; width:80%;" placeholder="گەڕان..." oninput="filterSongs(this.value)">
   </div>
