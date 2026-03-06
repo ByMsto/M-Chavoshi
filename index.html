@@ -38,7 +38,7 @@
             100% { color: #ff0000; text-shadow: 0 0 15px #ff0000; }
         }
 
-        /* 🔄 ئەنیمەیشنی نوێ بۆ سوڕانەوەی خۆرەکە */
+        /* 🔄 ئەنیمەیشنی سوڕانەوەی خۆرەکە */
         @keyframes rotate-sun {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -89,13 +89,12 @@
             display: flex; align-items: flex-end; gap: 30px;
         }
 
-        /* لێرەدا فەرمانی سوڕانەوەکە بۆ وێنەی خۆرەکە زیاد کراوە */
         .header-img {
             width: 230px; height: 230px;
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             object-fit: cover;
-            animation: rotate-sun 15s infinite linear; /* سوڕانەوەکە لێرەدایە */
+            animation: rotate-sun 15s infinite linear;
         }
 
         .header-text h1 { font-size: 70px; font-weight: 900; margin-bottom: 10px; }
@@ -136,11 +135,16 @@
         .player-info { display: flex; align-items: center; gap: 15px; }
         .player-controls { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .control-btns { display: flex; align-items: center; gap: 25px; }
+        
         .play-btn { 
             width: 45px; height: 45px; background: #fff; border: none; 
             border-radius: 50%; font-size: 20px; cursor: pointer;
             transition: 0.2s;
         }
+        .play-btn:hover { transform: scale(1.1); }
+
+        .repeat-btn { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; opacity: 0.5; transition: 0.3s; }
+        .repeat-btn.active { opacity: 1; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
         
         .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; direction: ltr; }
         .progress-bar { flex: 1; height: 5px; background: #333; border-radius: 10px; cursor: pointer; position: relative; }
@@ -171,7 +175,6 @@
 
         .view { display: none; }
         .view.active { display: block; }
-
         .vol-slider { -webkit-appearance: none; width: 100px; height: 4px; background: #333; border-radius: 10px; cursor: pointer; accent-color: var(--primary); direction: ltr; }
     </style>
 </head>
@@ -225,6 +228,7 @@
 
     <div class="player-controls">
         <div class="control-btns">
+            <button class="repeat-btn" id="repeatBtn" onclick="toggleRepeat()">🔁</button>
             <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="prevSong()">⏮</button>
             <button class="play-btn" id="masterPlay" onclick="togglePlay()">▶</button>
             <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="nextSong()">⏭</button>
@@ -269,6 +273,7 @@ const songs = [
 
 let cur = -1;
 let favs = JSON.parse(localStorage.getItem('m_favs')) || [];
+let isRepeat = false;
 const audio = document.getElementById('mainAudio');
 
 function formatTime(sec) {
@@ -315,6 +320,15 @@ function togglePlay() {
     else { audio.pause(); document.getElementById('masterPlay').innerText = '▶'; }
 }
 
+function toggleRepeat() {
+    isRepeat = !isRepeat;
+    document.getElementById('repeatBtn').classList.toggle('active', isRepeat);
+}
+
+audio.onended = () => {
+    if (isRepeat) { audio.play(); } else { nextSong(); }
+};
+
 function seek(e) {
     const r = document.getElementById('pBar').getBoundingClientRect();
     const pct = (e.clientX - r.left) / r.width;
@@ -360,6 +374,3 @@ updateAll();
 </script>
 </body>
 </html>
-
-
-
