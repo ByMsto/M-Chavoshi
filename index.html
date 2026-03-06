@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>موزیک -موحسین چاڤۆشی</title>
+<title>موزیک - موحسین چاڤۆشی</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/nizar-nastaliq-kurdish" rel="stylesheet">
+
 <style>
   :root {
     --bg-primary: #0a0a0a;
@@ -22,35 +24,28 @@
     --sidebar-width: 240px;
   }
 
-  /* 🌈 RGB Watermark Style */
+  /* 🌈 RGB Watermark Style - دانان لە سەرەوە */
   .msto-rgb-watermark {
       position: fixed;
-      bottom: 100px;
-      left: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      z-index: 1000;
+      top: 20px; /* بردن بۆ سەرەوە */
+      left: 30px; /* لای چەپ */
+      font-size: 45px; /* قەبارەی گەورە بۆ ئەوەی دیار بێت */
+      font-family: 'Nizar Nastaliq Kurdish', serif;
+      z-index: 9999; /* هەمیشە لەسەر هەموو شتێک بێت */
       pointer-events: none;
       animation: rgb-text 5s infinite linear;
+      direction: rtl;
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)); /* بۆ ئەوەی لەسەر وێنەش دیار بێت */
   }
 
   @keyframes rgb-text {
-      0% { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
-      20% { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
-      40% { color: #0000ff; text-shadow: 0 0 5px #0000ff; }
-      60% { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
-      80% { color: #00ff00; text-shadow: 0 0 5px #00ff00; }
-      100% { color: #ff0000; text-shadow: 0 0 5px #ff0000; }
+      0% { color: #ff0000; text-shadow: 0 0 10px rgba(255,0,0,0.7); }
+      20% { color: #ff00ff; text-shadow: 0 0 10px rgba(255,0,255,0.7); }
+      40% { color: #0000ff; text-shadow: 0 0 10px rgba(0,0,255,0.7); }
+      60% { color: #00ffff; text-shadow: 0 0 10px rgba(0,255,255,0.7); }
+      80% { color: #00ff00; text-shadow: 0 0 10px rgba(0,255,0,0.7); }
+      100% { color: #ff0000; text-shadow: 0 0 10px rgba(255,0,0,0.7); }
   }
-
-  .watermark-container {
-      position: fixed;
-      bottom: 100px;
-      left: 20px;
-      z-index: 999;
-      opacity: 0.5;
-  }
-  .watermark-text { color: white; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px; font-size: 12px; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -130,10 +125,7 @@
 
   /* 📱 مۆبایل - Responsive Design */
   @media (max-width: 768px) {
-    body {
-      grid-template-columns: 1fr;
-      grid-template-areas: "main" "player";
-    }
+    body { grid-template-columns: 1fr; grid-template-areas: "main" "player"; }
     #sidebar { display: none; }
     .main-header { padding: 20px; flex-direction: column; align-items: center; text-align: center; }
     .artist-cover { width: 150px; height: 150px; }
@@ -143,6 +135,7 @@
     .song-album { display: none; }
     .player-right, .progress-row { display: none; }
     #player { grid-template-columns: 1fr 1fr; }
+    .msto-rgb-watermark { font-size: 35px; top: 10px; left: 15px; }
   }
 </style>
 </head>
@@ -185,10 +178,9 @@
     <div id="songList"></div>
   </div>
 
-  <div id="view-search" class="views active search-view" style="display:none;">
+  <div id="view-search" class="views active" style="display:none;">
       <h2 style="padding:20px;">گەڕان</h2>
-      <input type="text" class="search-input" style="margin:0 20px;" placeholder="گەڕان..." oninput="filterSongs(this.value)">
-      <div id="searchResults"></div>
+      <input type="text" style="margin:0 20px; padding:10px; width:80%;" placeholder="گەڕان..." oninput="filterSongs(this.value)">
   </div>
 
   <div id="view-favorites" class="views" style="padding:20px;">
@@ -294,11 +286,8 @@ function renderSongs(list, containerId) {
 function toggleFavorite(event, idx) {
     event.stopPropagation();
     const fIdx = favorites.indexOf(idx);
-    if (fIdx > -1) {
-        favorites.splice(fIdx, 1);
-    } else {
-        favorites.push(idx);
-    }
+    if (fIdx > -1) { favorites.splice(fIdx, 1); }
+    else { favorites.push(idx); }
     localStorage.setItem('mchavoshi_favs', JSON.stringify(favorites));
     renderSongs(songs, 'songList');
     renderFavorites();
@@ -344,7 +333,8 @@ audio.addEventListener('timeupdate', () => {
 
 function showView(name) {
   document.querySelectorAll('.views').forEach(v => v.style.display = 'none');
-  document.getElementById('view-' + name).style.display = 'block';
+  const view = document.getElementById('view-' + name);
+  if(view) view.style.display = 'block';
   if(name === 'favorites') renderFavorites();
 }
 
