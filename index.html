@@ -29,13 +29,19 @@
             z-index: 9999;
             animation: rgb-glow 6s infinite linear;
             pointer-events: none;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 15px #000);
         }
         @keyframes rgb-glow {
             0% { color: #ff0000; text-shadow: 0 0 15px #ff0000; }
             33% { color: #00ff00; text-shadow: 0 0 15px #00ff00; }
             66% { color: #0000ff; text-shadow: 0 0 15px #0000ff; }
             100% { color: #ff0000; text-shadow: 0 0 15px #ff0000; }
+        }
+
+        /* 🔄 ئەنیمەیشنی نوێ بۆ سوڕانەوەی خۆرەکە */
+        @keyframes rotate-sun {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,7 +58,6 @@
             overflow: hidden;
         }
 
-        /* Sidebar - مێنیوی لای چەپ */
         #sidebar {
             grid-area: sidebar;
             background: var(--sidebar-bg);
@@ -68,15 +73,11 @@
             border-radius: 10px;
             cursor: pointer;
             color: var(--text-gray);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-weight: 700;
-            transition: 0.3s;
+            display: flex; align-items: center; gap: 15px;
+            font-weight: 700; transition: 0.3s;
         }
         .nav-item:hover, .nav-item.active { background: var(--card-hover); color: var(--text-white); }
 
-        /* Main Content */
         #main {
             grid-area: main;
             overflow-y: auto;
@@ -85,28 +86,20 @@
         }
         .header-content {
             padding: 80px 40px 40px;
-            display: flex;
-            align-items: flex-end;
-            gap: 30px;
+            display: flex; align-items: flex-end; gap: 30px;
         }
 
-        /* 🔄 کۆدی نوێ بۆ سوڕانەوەی خۆرەکە */
+        /* لێرەدا فەرمانی سوڕانەوەکە بۆ وێنەی خۆرەکە زیاد کراوە */
         .header-img {
             width: 230px; height: 230px;
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             object-fit: cover;
-            animation: rotate-sun 10s infinite linear; /* خۆرەکە لێرەدا دەسوڕێتەوە */
-        }
-
-        @keyframes rotate-sun {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            animation: rotate-sun 15s infinite linear; /* سوڕانەوەکە لێرەدایە */
         }
 
         .header-text h1 { font-size: 70px; font-weight: 900; margin-bottom: 10px; }
 
-        /* Song Table */
         .song-list-container { padding: 0 40px; }
         .table-header {
             display: grid;
@@ -130,7 +123,6 @@
         .song-title-group { display: flex; align-items: center; gap: 15px; }
         .song-row img { width: 45px; height: 45px; border-radius: 6px; }
 
-        /* Player Bar */
         #player {
             grid-area: player;
             background: rgba(10, 10, 10, 0.95);
@@ -149,12 +141,10 @@
             border-radius: 50%; font-size: 20px; cursor: pointer;
             transition: 0.2s;
         }
-        .play-btn:hover { transform: scale(1.1); }
         
-        /* چاککردنی ئاڕاستەی هێڵەکان بۆ چەپ بۆ ڕاست */
         .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; direction: ltr; }
         .progress-bar { flex: 1; height: 5px; background: #333; border-radius: 10px; cursor: pointer; position: relative; }
-        .progress-fill { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; transition: width 0.1s linear; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; }
 
         @media (max-width: 768px) {
             body {
@@ -164,13 +154,11 @@
             }
             #sidebar {
                 grid-area: sidebar;
-                flex-direction: row;
-                padding: 0;
-                justify-content: space-around;
-                align-items: center;
+                flex-direction: row; padding: 0;
+                justify-content: space-around; align-items: center;
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
-            .logo, .sidebar-divider { display: none; }
+            .logo { display: none; }
             .nav-item { flex-direction: column; font-size: 11px; padding: 10px; gap: 5px; }
             .header-content { flex-direction: column; align-items: center; text-align: center; padding: 40px 20px; }
             .header-img { width: 160px; height: 160px; }
@@ -179,7 +167,6 @@
             .song-row { grid-template-columns: 30px 1fr 80px 40px; padding: 10px; }
             #player { grid-template-columns: 1fr 1fr; }
             .player-right { display: none; }
-            .msto-watermark { font-size: 30px; top: 15px; left: 15px; }
         }
 
         .view { display: none; }
@@ -243,14 +230,14 @@
             <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="nextSong()">⏭</button>
         </div>
         <div class="progress-container">
-            <span id="cTime" style="font-size: 11px; direction: rtl;">٠:٠٠</span>
+            <span id="cTime" style="font-size: 11px;">٠:٠٠</span>
             <div class="progress-bar" id="pBar" onclick="seek(event)"><div class="progress-fill" id="pFill"></div></div>
-            <span id="tTime" style="font-size: 11px; direction: rtl;">٠:٠٠</span>
+            <span id="tTime" style="font-size: 11px;">٠:٠٠</span>
         </div>
     </div>
 
     <div class="player-right" style="display: flex; align-items: center; gap: 10px; justify-content: flex-end;">
-        <span style="direction: ltr;">🔊</span>
+        <span>🔊</span>
         <input type="range" class="vol-slider" min="0" max="1" step="0.05" value="1" oninput="changeVol(this.value)">
     </div>
 </div>
@@ -262,11 +249,11 @@ const songs = [
     { title: "کجایی", album: "Kojaei", cover: "music/cover1.jpg", src: "music/1.mp3", dur: "٣:٥٠" },
     { title: "نفس", album: "Nafas", cover: "music/cover2.jpg", src: "music/2.mp3", dur: "٤:٥٣" },
     { title: "هم خواب", album: "Hamkhab", cover: "music/cover3.jpg", src: "music/3.mp3", dur: "٢:٥٧" },
-    { title: "من بیاد میرافتم", album: "Miraftam", cover: "music/cover4.jpg", src: "music/4.mp3", dur: "٣:٤٣" },
+    { title: "بیاد میرافتم", album: "Miraftam", cover: "music/cover4.jpg", src: "music/4.mp3", dur: "٣:٤٣" },
     { title: "ملکا", album: "Maleka", cover: "music/cover5.jpg", src: "music/5.mp3", dur: "٤:٢٦" },
     { title: "زنگ زبور", album: "Tanhaye", cover: "music/cover6.jpg", src: "music/6.mp3", dur: "٣:١٧" },
     { title: "فاصلە", album: "Faseleh", cover: "music/cover7.jpg", src: "music/7.mp3", dur: "٥:١٤" },
-    { title: "برای گریەهایت", album: "Khodkoshi", cover: "music/cover8.jpg", src: "music/8.mp3", dur: "٥:٣٤" },
+    { title: "گریەهایت", album: "Khodkoshi", cover: "music/cover8.jpg", src: "music/8.mp3", dur: "٥:٣٤" },
     { title: "ساعت دیواری", album: "Saat Divari", cover: "music/cover9.jpg", src: "music/9.mp3", dur: "٣:٣٤" },
     { title: "قاتل حرفه ای", album: "Mohsen & Hamed", cover: "music/cover10.jpg", src: "music/10.mp3", dur: "٤:٢٠" },
     { title: "سر این سفرە", album: "Goldoon", cover: "music/cover11.jpg", src: "music/11.mp3", dur: "٥:٠٥" },
@@ -274,7 +261,7 @@ const songs = [
     { title: "زندانبان", album: "Zendanban", cover: "music/cover13.jpg", src: "music/13.mp3", dur: "٣:٥٧" },
     { title: "پناه", album: "Panah", cover: "music/cover14.jpg", src: "music/14.mp3", dur: "٤:٢٣" },
     { title: "باب دلمی", album: "Babe Delami", cover: "music/cover15.jpg", src: "music/15.mp3", dur: "٣:١٦" },
-    { title: "به رسمی", album: "Yadegar", cover: "music/cover16.jpg", src: "music/16.mp3", dur: "٥:٣١" },
+    { title: "بە رسمی", album: "Yadegar", cover: "music/cover16.jpg", src: "music/16.mp3", dur: "٥:٣١" },
     { title: "برقصا", album: "Beraghsa", cover: "music/cover17.jpg", src: "music/17.mp3", dur: "٤:١٥" },
 ];
 
