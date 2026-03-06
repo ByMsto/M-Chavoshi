@@ -141,7 +141,9 @@
             transition: 0.2s;
         }
         .play-btn:hover { transform: scale(1.1); }
-        .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; }
+        
+        /* چاککردنی ئاڕاستەی هێڵەکان بۆ چەپ بۆ ڕاست */
+        .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; direction: ltr; }
         .progress-bar { flex: 1; height: 5px; background: #333; border-radius: 10px; cursor: pointer; position: relative; }
         .progress-fill { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; }
 
@@ -184,6 +186,7 @@
             border-radius: 10px;
             cursor: pointer;
             accent-color: var(--primary);
+            direction: ltr; /* بۆ ئەوەی دەنگیش بە پێچەوانە نەبێت */
         }
     </style>
 </head>
@@ -247,14 +250,14 @@
             <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="nextSong()">⏭</button>
         </div>
         <div class="progress-container">
-            <span id="cTime" style="font-size: 11px;">٠:٠٠</span>
+            <span id="cTime" style="font-size: 11px; direction: rtl;">٠:٠٠</span>
             <div class="progress-bar" onclick="seek(event)"><div class="progress-fill" id="pFill"></div></div>
-            <span id="tTime" style="font-size: 11px;">٠:٠٠</span>
+            <span id="tTime" style="font-size: 11px; direction: rtl;">٠:٠٠</span>
         </div>
     </div>
 
     <div class="player-right" style="display: flex; align-items: center; gap: 10px; justify-content: flex-end;">
-        <span>🔊</span>
+        <span style="direction: ltr;">🔊</span>
         <input type="range" class="vol-slider" min="0" max="1" step="0.05" value="1" oninput="changeVol(this.value)">
     </div>
 </div>
@@ -345,7 +348,6 @@ function searchMusic(q) {
 function nextSong() { playIt((cur + 1) % songs.length); }
 function prevSong() { playIt((cur - 1 + songs.length) % songs.length); }
 
-// فەنکشنی نوێ بۆ نوێکردنەوەی هێڵی کات و ژمارەکان
 function formatTime(sec) {
     let m = Math.floor(sec / 60);
     let s = Math.floor(sec % 60);
@@ -363,13 +365,13 @@ audio.ontimeupdate = () => {
     }
 };
 
-// فەنکشنی نوێ بۆ گۆڕینی دەنگ
 function changeVol(v) {
     audio.volume = v;
 }
 
 function seek(e) {
     const r = e.currentTarget.getBoundingClientRect();
+    // لێرەدا کۆنترۆڵی لای چەپ دەکەین بۆ ئەوەی لەگەڵ ltr بگونجێت
     audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
 }
 
