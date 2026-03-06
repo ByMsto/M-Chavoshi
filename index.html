@@ -4,20 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>موزیک - موحسین چاڤۆشی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/nizar-nastaliq-kurdish" rel="stylesheet">
 
 <style>
-  /* 🖋️ شێوازی نوێ بۆ بانگکردنی فۆنتی نەستەعلیق بۆ مۆبایل */
-  @import url('https://fonts.cdnfonts.com/css/nizar-nastaliq-kurdish');
-
   :root {
     --bg-primary: #0a0a0a;
     --bg-secondary: #111111;
     --bg-tertiary: #1a1a1a;
     --bg-hover: #222222;
     --green: #1db954;
-    --green-bright: #1ed760;
-    --green-dim: #158a3e;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
     --text-dim: #555555;
@@ -26,19 +24,18 @@
     --sidebar-width: 240px;
   }
 
-  /* 🌈 RGB Watermark Style - مستۆ */
+  /* 🌈 RGB Watermark Style - (مستۆ) */
   .msto-rgb-watermark {
       position: fixed;
-      top: 15px; 
-      left: 20px; 
-      font-size: 42px; 
-      /* لێرە ناوی فۆنتەکە بە وردی دانراوە */
-      font-family: 'Nizar Nastaliq Kurdish', 'Nizar Nastaliq', serif !important;
+      top: 20px; 
+      left: 25px; 
+      font-size: 45px; 
+      font-family: 'Nizar Nastaliq Kurdish', serif !important;
       z-index: 9999; 
       pointer-events: none;
       animation: rgb-text 5s infinite linear;
       direction: rtl;
-      filter: drop-shadow(0 0 12px rgba(0,0,0,0.9));
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
   }
 
   @keyframes rgb-text {
@@ -79,7 +76,7 @@
   .artist-cover { width: 200px; height: 200px; border-radius: 12px; object-fit: cover; box-shadow: 0 20px 60px rgba(0,0,0,0.8); background: var(--bg-tertiary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 60px; }
   .artist-info h1 { font-size: 48px; font-weight: 700; margin-bottom: 8px; }
   .controls-row { padding: 24px 32px; }
-  .btn-play-main { width: 56px; height: 56px; background: var(--green); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(29,185,84,0.4); }
+  .btn-play-main { width: 56px; height: 56px; background: var(--green); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(29,185,84,0.4); font-size: 24px; }
 
   .table-header { display: grid; grid-template-columns: 48px 40px 1fr 200px 100px 60px; padding: 8px 32px; color: var(--text-dim); font-size: 12px; border-bottom: 1px solid var(--border); }
   
@@ -113,33 +110,29 @@
   .player-thumb img { width: 100%; height: 100%; object-fit: cover; }
   .player-center { display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .player-controls { display: flex; align-items: center; gap: 20px; }
-  .ctrl-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); }
-  .btn-play-bar { width: 40px; height: 40px; background: #fff; border-radius: 50%; color: #000; display: flex; align-items: center; justify-content: center; }
+  .ctrl-btn { background: none; border: none; cursor: pointer; color: var(--text-secondary); font-size: 20px; }
+  .btn-play-bar { width: 40px; height: 40px; background: #fff; border-radius: 50%; color: #000; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   .progress-row { width: 100%; display: flex; align-items: center; gap: 10px; }
   .progress-bar-wrap { flex: 1; height: 4px; background: var(--bg-hover); border-radius: 2px; cursor: pointer; position: relative; }
   .progress-fill { height: 100%; background: var(--text-secondary); border-radius: 2px; }
   .player-right { display: flex; justify-content: flex-end; }
-  .volume-row { display: flex; align-items: center; gap: 8px; }
-  .volume-bar-wrap { width: 90px; height: 4px; background: var(--bg-hover); border-radius: 2px; }
-  .volume-fill { height: 100%; background: var(--text-secondary); width: 70%; }
+  .volume-row { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
 
   .views { display: none; }
   .views.active { display: block; }
 
-  /* 📱 مۆبایل - Responsive Design */
   @media (max-width: 768px) {
     body { grid-template-columns: 1fr; grid-template-areas: "main" "player"; }
     #sidebar { display: none; }
     .main-header { padding: 20px; flex-direction: column; align-items: center; text-align: center; }
-    .artist-cover { width: 140px; height: 140px; }
-    .artist-info h1 { font-size: 26px; }
+    .artist-cover { width: 150px; height: 150px; }
+    .artist-info h1 { font-size: 28px; }
     .table-header { display: none; }
     .song-row { grid-template-columns: 30px 40px 1fr 60px; padding: 12px 10px; margin: 0 5px; }
     .song-album { display: none; }
     .player-right, .progress-row { display: none; }
     #player { grid-template-columns: 1fr 1fr; }
-    /* ناوەکە لە مۆبایل کەمێک بچووکتر بێت */
-    .msto-rgb-watermark { font-size: 32px; top: 10px; left: 15px; }
+    .msto-rgb-watermark { font-size: 35px; top: 10px; left: 15px; }
   }
 </style>
 </head>
@@ -182,14 +175,15 @@
     <div id="songList"></div>
   </div>
 
-  <div id="view-search" class="views" style="display:none;">
-      <h2 style="padding:20px;">گەڕان</h2>
-      <input type="text" style="margin:0 20px; padding:10px; width:80%;" placeholder="گەڕان..." oninput="filterSongs(this.value)">
+  <div id="view-search" class="views" style="padding:20px;">
+      <h2 style="margin-bottom:20px;">گەڕان</h2>
+      <input type="text" id="searchInput" style="width:100%; padding:12px; border-radius:8px; border:none; background:var(--bg-tertiary); color:white; margin-bottom:20px;" placeholder="بگەڕێ بۆ ناوی گۆرانی..." oninput="filterSongs(this.value)">
+      <div id="searchResults"></div>
   </div>
 
   <div id="view-favorites" class="views" style="padding:20px;">
       <h2>دڵخوازەکانم</h2>
-      <div id="favoritesList"></div>
+      <div id="favoritesList" style="margin-top:20px;"></div>
   </div>
 </main>
 
@@ -197,8 +191,8 @@
   <div class="player-song">
     <div class="player-thumb" id="playerThumb">🎵</div>
     <div class="player-song-text">
-      <div class="player-title" id="playerTitle">گۆرانیەک هەڵبژێرە</div>
-      <div class="player-artist">موحسین چاڤۆشی</div>
+      <div class="player-title" id="playerTitle" style="font-weight:bold;">گۆرانیەک هەڵبژێرە</div>
+      <div class="player-artist" style="font-size:12px; color:var(--text-secondary);">موحسین چاڤۆشی</div>
     </div>
   </div>
   <div class="player-center">
@@ -208,15 +202,13 @@
       <button class="ctrl-btn" onclick="nextSong()">⏭</button>
     </div>
     <div class="progress-row">
-      <span class="time-label" id="currentTime">٠:٠٠</span>
+      <span id="currentTime" style="font-size:12px;">٠:٠٠</span>
       <div class="progress-bar-wrap" onclick="seekTo(event)"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-      <span class="time-label" id="totalTime">٠:٠٠</span>
+      <span id="totalTime" style="font-size:12px;">٠:٠٠</span>
     </div>
   </div>
   <div class="player-right">
-      <div class="volume-row">
-          <div class="volume-bar-wrap"><div class="volume-fill"></div></div>
-      </div>
+      <div class="volume-row"><span>🔊</span><div class="volume-bar-wrap"><div class="volume-fill"></div></div></div>
   </div>
 </div>
 
@@ -250,10 +242,6 @@ function formatTime(sec) {
   return toKurdishNums(m) + ':' + (s < 10 ? '٠' : '') + toKurdishNums(s);
 }
 
-function getCoverHTML(song, size=42) {
-  return song.cover ? `<img src="${song.cover}" style="width:${size}px;height:${size}px;border-radius:6px;object-fit:cover;">` : '🎵';
-}
-
 function renderSongs(list, containerId) {
   const container = document.getElementById(containerId);
   if(!container) return;
@@ -264,7 +252,6 @@ function renderSongs(list, containerId) {
     const isFav = favorites.includes(idx);
     const row = document.createElement('div');
     row.className = 'song-row' + (isActive ? ' playing' : '');
-    
     row.innerHTML = `
       <div class="song-num">${toKurdishNums(i+1)}</div>
       <div class="song-fav" onclick="toggleFavorite(event, ${idx})">
@@ -273,7 +260,7 @@ function renderSongs(list, containerId) {
           </svg>
       </div>
       <div class="song-info" onclick="playSong(${idx})">
-        <div class="song-thumb">${getCoverHTML(song, 42)}</div>
+        <div class="song-thumb"><img src="${song.cover}"></div>
         <div class="song-text">
           <div class="song-title">${song.title}</div>
           <div class="song-artist">موحسین چاڤۆشی</div>
@@ -294,7 +281,7 @@ function toggleFavorite(event, idx) {
     else { favorites.push(idx); }
     localStorage.setItem('mchavoshi_favs', JSON.stringify(favorites));
     renderSongs(songs, 'songList');
-    renderFavorites();
+    if(document.getElementById('view-favorites').classList.contains('active')) renderFavorites();
 }
 
 function renderFavorites() {
@@ -302,27 +289,32 @@ function renderFavorites() {
     renderSongs(favSongs, 'favoritesList');
 }
 
+function filterSongs(query) {
+    const filtered = songs.filter(s => s.title.includes(query));
+    renderSongs(filtered, 'searchResults');
+}
+
 function playSong(idx) {
   currentIdx = idx;
   audio.src = songs[idx].audioSrc;
   audio.play();
   isPlaying = true;
+  document.getElementById('playPauseBtn').textContent = '⏸';
   updateUI();
 }
 
 function updateUI() {
   const song = songs[currentIdx];
   document.getElementById('playerTitle').textContent = song.title;
-  document.getElementById('playerThumb').innerHTML = getCoverHTML(song, 56);
-  document.getElementById('mainCover').innerHTML = getCoverHTML(song, 200);
+  document.getElementById('playerThumb').innerHTML = `<img src="${song.cover}">`;
+  document.getElementById('mainCover').innerHTML = `<img src="${song.cover}" style="width:100%;height:100%;border-radius:12px;object-fit:cover;">`;
   renderSongs(songs, 'songList');
 }
 
 function togglePlay() {
   if (currentIdx === -1) { playSong(0); return; }
-  if (isPlaying) { audio.pause(); isPlaying = false; }
-  else { audio.play(); isPlaying = true; }
-  renderSongs(songs, 'songList');
+  if (isPlaying) { audio.pause(); isPlaying = false; document.getElementById('playPauseBtn').textContent = '▶'; }
+  else { audio.play(); isPlaying = true; document.getElementById('playPauseBtn').textContent = '⏸'; }
 }
 
 function nextSong() { playSong((currentIdx + 1) % songs.length); }
@@ -335,10 +327,17 @@ audio.addEventListener('timeupdate', () => {
   document.getElementById('totalTime').textContent = formatTime(audio.duration);
 });
 
+function seekTo(e) {
+    const rect = e.target.closest('.progress-bar-wrap').getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+}
+
 function showView(name) {
-  document.querySelectorAll('.views').forEach(v => v.style.display = 'none');
-  const view = document.getElementById('view-' + name);
-  if(view) view.style.display = 'block';
+  document.querySelectorAll('.views').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  event.target.classList.add('active');
   if(name === 'favorites') renderFavorites();
 }
 
