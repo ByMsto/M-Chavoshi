@@ -89,12 +89,21 @@
             align-items: flex-end;
             gap: 30px;
         }
+
+        /* 🔄 کۆدی نوێ بۆ سوڕانەوەی خۆرەکە */
         .header-img {
             width: 230px; height: 230px;
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             object-fit: cover;
+            animation: rotate-sun 10s infinite linear; /* خۆرەکە لێرەدا دەسوڕێتەوە */
         }
+
+        @keyframes rotate-sun {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .header-text h1 { font-size: 70px; font-weight: 900; margin-bottom: 10px; }
 
         /* Song Table */
@@ -145,9 +154,8 @@
         /* چاککردنی ئاڕاستەی هێڵەکان بۆ چەپ بۆ ڕاست */
         .progress-container { width: 100%; display: flex; align-items: center; gap: 10px; direction: ltr; }
         .progress-bar { flex: 1; height: 5px; background: #333; border-radius: 10px; cursor: pointer; position: relative; }
-        .progress-fill { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; transition: width 0.1s linear; }
 
-        /* 📱 Mobile - گۆڕانکاری بۆ مۆبایل */
         @media (max-width: 768px) {
             body {
                 grid-template-areas: "main" "player" "sidebar";
@@ -177,17 +185,7 @@
         .view { display: none; }
         .view.active { display: block; }
 
-        /* شێوازی Volume Slider نوێ */
-        .vol-slider {
-            -webkit-appearance: none;
-            width: 100px;
-            height: 4px;
-            background: #333;
-            border-radius: 10px;
-            cursor: pointer;
-            accent-color: var(--primary);
-            direction: ltr; /* بۆ ئەوەی دەنگیش بە پێچەوانە نەبێت */
-        }
+        .vol-slider { -webkit-appearance: none; width: 100px; height: 4px; background: #333; border-radius: 10px; cursor: pointer; accent-color: var(--primary); direction: ltr; }
     </style>
 </head>
 <body>
@@ -211,20 +209,15 @@
                 <p id="totalSongsLabel" style="color: var(--text-gray);">٠ گۆرانی</p>
             </div>
         </div>
-
         <div class="song-list-container">
-            <div class="table-header">
-                <span>#</span><span>ناونیشان</span><span>ئەلبوم</span><span>ماوە</span><span></span>
-            </div>
+            <div class="table-header"><span>#</span><span>ناونیشان</span><span>ئەلبوم</span><span>ماوە</span><span></span></div>
             <div id="fullSongList"></div>
         </div>
     </div>
 
     <div id="view-search" class="view" style="padding: 40px;">
         <h2 style="margin-bottom: 20px;">گەڕان</h2>
-        <input type="text" id="searchInput" placeholder="چی دەبیستیت؟" 
-               style="width: 100%; padding: 15px 25px; border-radius: 30px; border: none; background: var(--card-hover); color: #fff; font-family: inherit;"
-               oninput="searchMusic(this.value)">
+        <input type="text" id="searchInput" placeholder="چی دەبیستیت؟" style="width: 100%; padding: 15px 25px; border-radius: 30px; border: none; background: var(--card-hover); color: #fff; font-family: inherit;" oninput="searchMusic(this.value)">
         <div id="searchList" style="margin-top: 20px;"></div>
     </div>
 
@@ -251,7 +244,7 @@
         </div>
         <div class="progress-container">
             <span id="cTime" style="font-size: 11px; direction: rtl;">٠:٠٠</span>
-            <div class="progress-bar" onclick="seek(event)"><div class="progress-fill" id="pFill"></div></div>
+            <div class="progress-bar" id="pBar" onclick="seek(event)"><div class="progress-fill" id="pFill"></div></div>
             <span id="tTime" style="font-size: 11px; direction: rtl;">٠:٠٠</span>
         </div>
     </div>
@@ -269,54 +262,62 @@ const songs = [
     { title: "کجایی", album: "Kojaei", cover: "music/cover1.jpg", src: "music/1.mp3", dur: "٣:٥٠" },
     { title: "نفس", album: "Nafas", cover: "music/cover2.jpg", src: "music/2.mp3", dur: "٤:٥٣" },
     { title: "هم خواب", album: "Hamkhab", cover: "music/cover3.jpg", src: "music/3.mp3", dur: "٢:٥٧" },
-    { title: "من بیاد میرافتم", album: "Man Bayad Miraftam", cover: "music/cover4.jpg", src: "music/4.mp3", dur: "٣:٤٣" },
+    { title: "من بیاد میرافتم", album: "Miraftam", cover: "music/cover4.jpg", src: "music/4.mp3", dur: "٣:٤٣" },
     { title: "ملکا", album: "Maleka", cover: "music/cover5.jpg", src: "music/5.mp3", dur: "٤:٢٦" },
     { title: "زنگ زبور", album: "Tanhaye", cover: "music/cover6.jpg", src: "music/6.mp3", dur: "٣:١٧" },
     { title: "فاصلە", album: "Faseleh", cover: "music/cover7.jpg", src: "music/7.mp3", dur: "٥:١٤" },
-    { title: "برای گریەهایت", album: "Khodkoshi Mamnoo", cover: "music/cover8.jpg", src: "music/8.mp3", dur: "٥:٣٤" },
+    { title: "برای گریەهایت", album: "Khodkoshi", cover: "music/cover8.jpg", src: "music/8.mp3", dur: "٥:٣٤" },
     { title: "ساعت دیواری", album: "Saat Divari", cover: "music/cover9.jpg", src: "music/9.mp3", dur: "٣:٣٤" },
     { title: "قاتل حرفه ای", album: "Mohsen & Hamed", cover: "music/cover10.jpg", src: "music/10.mp3", dur: "٤:٢٠" },
     { title: "سر این سفرە", album: "Goldoon", cover: "music/cover11.jpg", src: "music/11.mp3", dur: "٥:٠٥" },
-    { title: "ماه خورشید منی", album: "Gandom Goon", cover: "music/cover12.jpg", src: "music/12.mp3", dur: "٤:١٢" },
+    { title: "ماه خورشید منی", album: "Gandom", cover: "music/cover12.jpg", src: "music/12.mp3", dur: "٤:١٢" },
     { title: "زندانبان", album: "Zendanban", cover: "music/cover13.jpg", src: "music/13.mp3", dur: "٣:٥٧" },
     { title: "پناه", album: "Panah", cover: "music/cover14.jpg", src: "music/14.mp3", dur: "٤:٢٣" },
     { title: "باب دلمی", album: "Babe Delami", cover: "music/cover15.jpg", src: "music/15.mp3", dur: "٣:١٦" },
-    { title: "به رسمی", album: "Be Rasme Yadegar", cover: "music/cover16.jpg", src: "music/16.mp3", dur: "٥:٣١" },
-    { title: "برقصا", album: "Beraghsa ", cover: "music/cover17.jpg", src: "music/17.mp3", dur: "٤:١٥" },
-    { title: "همین مونده بود", album: "Hamin Moonde bood ", cover: "music/cover18.jpg", src: "music/18.mp3", dur: "٣:٥٧" },
+    { title: "به رسمی", album: "Yadegar", cover: "music/cover16.jpg", src: "music/16.mp3", dur: "٥:٣١" },
+    { title: "برقصا", album: "Beraghsa", cover: "music/cover17.jpg", src: "music/17.mp3", dur: "٤:١٥" },
 ];
 
 let cur = -1;
 let favs = JSON.parse(localStorage.getItem('m_favs')) || [];
 const audio = document.getElementById('mainAudio');
 
-function createRow(s, i, listId) {
-    const realIdx = songs.indexOf(s);
-    const isFav = favs.includes(realIdx);
-    const div = document.createElement('div');
-    div.className = `song-row ${realIdx === cur ? 'playing' : ''}`;
-    div.innerHTML = `
-        <span style="color:var(--text-gray)">${i+1}</span>
-        <div class="song-title-group" onclick="playIt(${realIdx})">
-            <img src="${s.cover}">
-            <div>${s.title}</div>
-        </div>
-        <div class="song-album">${s.album}</div>
-        <div>${s.dur}</div>
-        <div onclick="toggleFav(event, ${realIdx})">${isFav ? '❤️' : '🤍'}</div>
-    `;
-    document.getElementById(listId).appendChild(div);
+function formatTime(sec) {
+    if(!sec) return '٠:٠٠';
+    let m = Math.floor(sec / 60);
+    let s = Math.floor(sec % 60);
+    const map = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
+    let time = m + ":" + (s < 10 ? "0" + s : s);
+    return time.replace(/[0-9]/g, d => map[d]);
+}
+
+function renderSongs(list, id) {
+    const el = document.getElementById(id);
+    if(!el) return; el.innerHTML = '';
+    list.forEach((s, i) => {
+        const idx = songs.indexOf(s);
+        const row = document.createElement('div');
+        row.className = `song-row ${idx === cur ? 'playing' : ''}`;
+        row.innerHTML = `
+            <span>${formatTime(i+1).replace(':','')}</span>
+            <div class="song-title-group" onclick="playIt(${idx})">
+                <img src="${s.cover}"> <div>${s.title}</div>
+            </div>
+            <div class="song-album">${s.album}</div>
+            <div>${s.dur}</div>
+            <div onclick="toggleFav(event, ${idx})">${favs.includes(idx) ? '❤️' : '🤍'}</div>
+        `;
+        el.appendChild(row);
+    });
 }
 
 function playIt(i) {
-    cur = i;
-    audio.src = songs[i].src;
-    audio.play();
+    cur = i; audio.src = songs[i].src; audio.play();
     document.getElementById('masterPlay').innerText = '⏸';
     document.getElementById('pTitle').innerText = songs[i].title;
     document.getElementById('pThumb').src = songs[i].cover;
     document.getElementById('heroImg').src = songs[i].cover;
-    updateAllLists();
+    updateAll();
 }
 
 function togglePlay() {
@@ -325,71 +326,48 @@ function togglePlay() {
     else { audio.pause(); document.getElementById('masterPlay').innerText = '▶'; }
 }
 
-function showView(v) {
-    document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
-    document.getElementById('view-'+v).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
-    document.getElementById('btn-'+(v==='home'?'home':v==='search'?'search':'favs')).classList.add('active');
-    if(v === 'favorites') updateFavList();
-}
-
-function toggleFav(e, i) {
-    e.stopPropagation();
-    if(favs.includes(i)) favs = favs.filter(x => x !== i);
-    else favs.push(i);
-    localStorage.setItem('m_favs', JSON.stringify(favs));
-    updateAllLists();
-}
-
-function searchMusic(q) {
-    document.getElementById('searchList').innerHTML = '';
-    songs.filter(s => s.title.includes(q)).forEach((s, i) => createRow(s, i, 'searchList'));
-}
-
-function nextSong() { playIt((cur + 1) % songs.length); }
-function prevSong() { playIt((cur - 1 + songs.length) % songs.length); }
-
-function formatTime(sec) {
-    let m = Math.floor(sec / 60);
-    let s = Math.floor(sec % 60);
-    const map = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
-    let time = m + ":" + (s < 10 ? "0" + s : s);
-    return time.replace(/[0-9]/g, d => map[d]);
+function seek(e) {
+    const r = document.getElementById('pBar').getBoundingClientRect();
+    const pct = (e.clientX - r.left) / r.width;
+    audio.currentTime = pct * audio.duration;
 }
 
 audio.ontimeupdate = () => {
     if(audio.duration) {
-        const p = (audio.currentTime / audio.duration) * 100;
-        document.getElementById('pFill').style.width = p + '%';
+        document.getElementById('pFill').style.width = (audio.currentTime / audio.duration) * 100 + '%';
         document.getElementById('cTime').innerText = formatTime(audio.currentTime);
         document.getElementById('tTime').innerText = formatTime(audio.duration);
     }
 };
 
-function changeVol(v) {
-    audio.volume = v;
+function changeVol(v) { audio.volume = v; }
+function nextSong() { playIt((cur + 1) % songs.length); }
+function prevSong() { playIt((cur - 1 + songs.length) % songs.length); }
+
+function showView(v) {
+    document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
+    document.getElementById('view-'+v).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
+    document.getElementById('btn-'+(v==='home'?'home':v==='search'?'search':'favs')).classList.add('active');
+    if(v === 'favorites') renderSongs(songs.filter((_,i)=>favs.includes(i)), 'favoritesList');
 }
 
-function seek(e) {
-    const r = e.currentTarget.getBoundingClientRect();
-    // لێرەدا کۆنترۆڵی لای چەپ دەکەین بۆ ئەوەی لەگەڵ ltr بگونجێت
-    audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+function toggleFav(e, i) {
+    e.stopPropagation();
+    if(favs.includes(i)) favs = favs.filter(x => x !== i); else favs.push(i);
+    localStorage.setItem('m_favs', JSON.stringify(favs));
+    updateAll();
 }
 
-function updateFavList() {
-    document.getElementById('favoritesList').innerHTML = '';
-    songs.filter((_, i) => favs.includes(i)).forEach((s, i) => createRow(s, i, 'favoritesList'));
+function searchMusic(q) { renderSongs(songs.filter(s => s.title.includes(q)), 'searchList'); }
+
+function updateAll() {
+    renderSongs(songs, 'fullSongList');
+    if(document.getElementById('view-favorites').classList.contains('active')) renderSongs(songs.filter((_,i)=>favs.includes(i)), 'favoritesList');
 }
 
-function updateAllLists() {
-    document.getElementById('fullSongList').innerHTML = '';
-    songs.forEach((s, i) => createRow(s, i, 'fullSongList'));
-    if(document.getElementById('view-favorites').classList.contains('active')) updateFavList();
-}
-
-document.getElementById('totalSongsLabel').innerText = songs.length.toString().replace(/[0-9]/g, d => ({'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'})[d]) + ' گۆرانی';
-updateAllLists();
+document.getElementById('totalSongsLabel').innerText = formatTime(songs.length).replace(':','') + ' گۆرانی';
+updateAll();
 </script>
 </body>
 </html>
-
