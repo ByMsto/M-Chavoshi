@@ -31,7 +31,6 @@
       top: 20px; 
       left: 25px; 
       font-size: 45px !important;
-      /* زیادکردنی چەند ناوێکی تری فۆنتەکە بۆ دڵنیایی لە ئایفۆن */
       font-family: 'Nizar Nastaliq Kurdish', 'Nizar Nastaliq', 'nizar_nastaliq_kurdish', serif !important;
       z-index: 9999; 
       pointer-events: none;
@@ -126,7 +125,6 @@
   .views { display: none; }
   .views.active { display: block; }
 
-  /* 📱 مۆبایل - Responsive Design */
   @media (max-width: 768px) {
     body { grid-template-columns: 1fr; grid-template-areas: "main" "player"; }
     #sidebar { display: none; }
@@ -138,7 +136,6 @@
     .song-album { display: none; }
     .player-right, .progress-row { display: none; }
     #player { grid-template-columns: 1fr 1fr; }
-    /* ناوەکە لە مۆبایل کەمێک بچووکتر بێت */
     .msto-rgb-watermark { font-size: 32px; top: 10px; left: 15px; }
   }
 </style>
@@ -346,11 +343,20 @@ function showView(name) {
 
 document.getElementById('songCountLabel').textContent = toKurdishNums(songs.length) + ' گۆرانی';
 renderSongs(songs, 'songList');
+
+// 📱 کۆدی تایبەت بۆ ئەپ و ئۆفلاین (PWA)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swCode = `
+      const CACHE_NAME = 'msto-music-v1';
+      const urlsToCache = ['${window.location.href}', 'index.html'];
+      self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+      self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+    `;
+    const b = new Blob([swCode], {type: 'text/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(b));
+  });
+}
 </script>
 </body>
 </html>
-
-
-
-
-
