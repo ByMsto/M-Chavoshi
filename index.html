@@ -194,7 +194,8 @@
         <div class="header-content">
             <img src="music/cover1.jpg" id="heroImg" class="header-img">
             <div class="header-text">
-                <p style="text-transform: uppercase; font-size: 12px; font-weight: 900;">Artist</p>
+                <p id="currentSongTitle" style="color: var(--primary); font-weight: 900; font-size: 16px; margin-bottom: 5px; height: 24px;"></p>
+                <p style="text-transform: uppercase; font-size: 12px; font-weight: 900; color: var(--text-gray);">Artist</p>
                 <h1>موحسین چاڤۆشی</h1>
                 <p id="totalSongsLabel" style="color: var(--text-gray);">٠ گۆرانی</p>
             </div>
@@ -311,6 +312,10 @@ function playIt(i) {
     document.getElementById('pTitle').innerText = songs[i].title;
     document.getElementById('pThumb').src = songs[i].cover;
     document.getElementById('heroImg').src = songs[i].cover;
+    
+    // ⬇️ نوێکردنەوەی ناونیشانی گۆرانییەکە لە بەشی هێدەر ⬇️
+    document.getElementById('currentSongTitle').innerText = songs[i].title;
+    
     updateAll();
 }
 
