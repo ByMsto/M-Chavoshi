@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+    const favCls = favs.includes(idx) ? 'active' <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -587,7 +588,7 @@
             <div class="banner-center">
                 <div class="hero-img-box">
                     <img src="music/cover1.jpg" id="heroImg" alt="Cover">
-                    <div class="hero-img-badge">NOW PLAYING</div>
+                    <div class="hero-img-badge">ئێستا پێکراوە</div>
                 </div>
                 <div class="header-text">
                     <div class="label">Artist</div>
@@ -717,8 +718,7 @@ function createRow(s, i, containerId) {
     const div = document.createElement('div');
     div.className = `song-row ${idx === cur ? 'playing' : ''}`;
     const isMobile = window.innerWidth <= 768;
-
-    const favCls = favs.includes(idx) ? 'active' : '';
+: '';
     const favIcon = favs.includes(idx) ? '❤' : '♡';
 
     if (isMobile) {
@@ -836,3 +836,4 @@ updateUI();
 </script>
 </body>
 </html>
+
