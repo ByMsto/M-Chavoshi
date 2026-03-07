@@ -19,6 +19,7 @@
             --sidebar-width: 260px;
         }
 
+        /* 🌈 واتەرمارکی مستۆ RGB */
         .msto-watermark {
             position: fixed; top: 15px; left: 15px;
             font-size: 35px; font-family: 'Nizar Nastaliq Kurdish', serif;
@@ -31,6 +32,7 @@
             66% { color: #0000ff; text-shadow: 0 0 10px #0000ff; }
         }
 
+        /* 🔄 ئەنیمەیشنی سوڕانەوە */
         @keyframes rotate-sun { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -58,6 +60,7 @@
 
         #main { grid-area: main; overflow-y: auto; background: linear-gradient(180deg, #122c1e 0%, #050505 40%); }
 
+        /* ☀️ شریتی هێدەر */
         .banner-container {
             margin: 20px; padding: 25px;
             background: rgba(255, 255, 255, 0.03);
@@ -67,7 +70,7 @@
         }
         .banner-left { display: flex; align-items: center; gap: 20px; }
         
-        /* ☀️ وێنەی خۆرەکە لێرەدایە */
+        /* ☀️ وێنەی خۆرەکە - ناوەکە لێرەدا ڕاستکراوەتەوە */
         .sun-spin { 
             width: 120px; height: 120px; 
             animation: rotate-sun 12s infinite linear; 
@@ -99,7 +102,7 @@
         .view { display: none; }
         .view.active { display: block; }
 
-        /* 📱 Mobile */
+        /* 📱 مۆبایل */
         @media (max-width: 768px) {
             body { grid-template-areas: "main" "player" "sidebar"; grid-template-columns: 1fr; grid-template-rows: 1fr 110px 65px; }
             #sidebar { grid-area: sidebar; flex-direction: row; padding: 0; justify-content: space-around; border-top: 1px solid #111; border-left: none; }
@@ -112,7 +115,6 @@
             .song-row { grid-template-columns: 30px 1fr 40px; }
             #player { grid-template-columns: 1fr 1fr; }
             .player-right { display: none; }
-            .msto-watermark { font-size: 25px; }
         }
     </style>
 </head>
@@ -131,9 +133,9 @@
     <div id="view-home" class="view active">
         <div class="banner-container">
             <div class="banner-left">
-                <img src="sun.png" class="sun-spin" alt="Sun">
+                <img src="unnamed-removebg-preview.png" class="sun-spin" alt="Sun">
                 <div class="header-text">
-                    <p style="color: var(--primary); font-weight: 900; font-size: 14px;">ARTIST</p>
+                    <p style="color: var(--primary); font-weight: 900; font-size: 14px;">هونەرمەند</p>
                     <h1>موحسین چاڤۆشی</h1>
                 </div>
             </div>
@@ -146,7 +148,7 @@
     </div>
 
     <div id="view-search" class="view" style="padding: 20px;">
-        <input type="text" id="searchInput" placeholder="گەڕان بۆ گۆرانی..." style="width:100%; padding:15px; border-radius:25px; border:none; background:#1a1a1a; color:#fff; outline:none;" oninput="searchMusic(this.value)">
+        <input type="text" id="searchInput" placeholder="چی دەبیستیت؟" style="width:100%; padding:15px; border-radius:25px; border:none; background:#1a1a1a; color:#fff; outline:none;" oninput="searchMusic(this.value)">
         <div id="searchList" style="margin-top:20px;"></div>
     </div>
 
