@@ -1094,30 +1094,27 @@ async function sendMsg() {
         return;
     }
 
-    const TOKEN   = '8399501231:AAEyATdkF38T-JJ9fW8PTOydB7A1Ooud_Jw';
-    const CHAT_ID = '6012594959';
-    const text    = '📩 پەیامی نوێ لە ماڵپەڕ\n\n👤 ناو: ' + name + '\n📧 ئیمەیڵ: ' + email + '\n📌 بابەت: ' + subject + '\n💬 پەیام:\n' + msg;
-
     const btn = document.getElementById('sendBtn');
     btn.disabled = true;
     btn.textContent = '...دەنێرێت';
 
     try {
-        const url = 'https://api.telegram.org/bot' + TOKEN + '/sendMessage';
-        const params = new URLSearchParams({
-            chat_id: CHAT_ID,
-            text: text
+        const res  = await fetch('/.netlify/functions/send-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, subject, msg })
         });
-        const res  = await fetch(url + '?' + params.toString(), {
-            method: 'GET',
-            mode: 'no-cors'
-        });
-        document.getElementById('successMsg').style.display = 'block';
-        document.getElementById('f-name').value    = '';
-        document.getElementById('f-email').value   = '';
-        document.getElementById('f-subject').value = '';
-        document.getElementById('f-msg').value     = '';
-        setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 4000);
+        const data = await res.json();
+        if (data.ok) {
+            document.getElementById('successMsg').style.display = 'block';
+            document.getElementById('f-name').value    = '';
+            document.getElementById('f-email').value   = '';
+            document.getElementById('f-subject').value = '';
+            document.getElementById('f-msg').value     = '';
+            setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 4000);
+        } else {
+            alert('کێشەیەک ڕووی دا، دووبارە هەوڵ بدەوە');
+        }
     } catch(e) {
         alert('کێشەیەک ڕووی دا: ' + e.message);
     }
