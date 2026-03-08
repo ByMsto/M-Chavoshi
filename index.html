@@ -1103,24 +1103,23 @@ async function sendMsg() {
     btn.textContent = '...دەنێرێت';
 
     try {
-        const res  = await fetch('https://api.telegram.org/bot' + TOKEN + '/sendMessage', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+        const url = 'https://api.telegram.org/bot' + TOKEN + '/sendMessage';
+        const params = new URLSearchParams({
+            chat_id: CHAT_ID,
+            text: text
         });
-        const data = await res.json();
-        if (data.ok) {
-            document.getElementById('successMsg').style.display = 'block';
-            document.getElementById('f-name').value    = '';
-            document.getElementById('f-email').value   = '';
-            document.getElementById('f-subject').value = '';
-            document.getElementById('f-msg').value     = '';
-            setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 4000);
-        } else {
-            alert('کێشەیەک ڕووی دا، دووبارە هەوڵ بدەوە');
-        }
+        const res  = await fetch(url + '?' + params.toString(), {
+            method: 'GET',
+            mode: 'no-cors'
+        });
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('f-name').value    = '';
+        document.getElementById('f-email').value   = '';
+        document.getElementById('f-subject').value = '';
+        document.getElementById('f-msg').value     = '';
+        setTimeout(() => { document.getElementById('successMsg').style.display = 'none'; }, 4000);
     } catch(e) {
-        alert('پەیوەندی سەرکەوتوو نەبوو، ئینتەرنێتەکەت بپشکنە');
+        alert('کێشەیەک ڕووی دا: ' + e.message);
     }
 
     btn.disabled = false;
